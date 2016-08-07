@@ -45,9 +45,9 @@ def min2sec(seconds):
             h = int(h)
             h = str(h)
             h = h.zfill(2)
-            return h + ":" + m + ":" + s
+            return str(h + ":" + m + ":" + s)
         else:
-            return m + ":" + s
+            return str(m + ":" + s)
     else:
         pass
 
