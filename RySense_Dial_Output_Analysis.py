@@ -18,13 +18,11 @@ from xlsxwriter.workbook import Workbook
 from openpyxl.chart import LineChart, Reference, Series
 
 
-
 #---------------------
-"""function to convert MS Excel file to a CSV for processig"""
+# function to convert MS Excel file to a CSV for processing
 def csv_from_excel(xl_doc, xl_sheet, csv_file):
-
-    wb = xlrd.open_workbook(xl_doc)
-    sh = wb.sheet_by_name(xl_sheet)
+    wbc = xlrd.open_workbook(xl_doc)
+    sh = wbc.sheet_by_name(xl_sheet)
     your_csv_file = open(csv_file, 'wb')
     wr = csv.writer(your_csv_file, quoting=csv.QUOTE_ALL)
 
@@ -33,29 +31,27 @@ def csv_from_excel(xl_doc, xl_sheet, csv_file):
 
     your_csv_file.close()
 
-"""function to convert seconds to minutes and seconds"""
+
+# function to convert seconds to minutes and seconds
 def min2sec(seconds):
-    try:
-        seconds = seconds.strip()
-        seconds = float(seconds)
+    if seconds or seconds.strip():
+        if type(seconds) != int:
+            seconds = int(seconds.strip())
         m,s = divmod(seconds, 60)
         h,m = divmod(m, 60)
-
-        m = int(m)
-        m = str(m)
-        m = m.zfill(2)
+        m = str(int(m)).zfill(2)
         s = str(int(s))
         if h > 0:
             h = int(h)
             h = str(h)
             h = h.zfill(2)
-            return h + ";" + m + ":" + s
+            return h + ":" + m + ":" + s
         else:
             return m + ":" + s
-    except:
+    else:
         pass
 
-"""function to populate list of vids, scale, and demographic questions"""
+# function to populate list of vids, scale, and demographic questions
 def vlist_pop(c_type):
     global v_lst
     try:
