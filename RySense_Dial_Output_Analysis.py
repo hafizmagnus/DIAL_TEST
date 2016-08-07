@@ -18,11 +18,9 @@ from xlsxwriter.workbook import Workbook
 from openpyxl.chart import LineChart, Reference, Series
 
 
-
 #---------------------
-"""function to convert MS Excel file to a CSV for processig"""
+# function to convert MS Excel file to a CSV for processing
 def csv_from_excel(xl_doc, xl_sheet, csv_file):
-
     wb = xlrd.open_workbook(xl_doc)
     sh = wb.sheet_by_name(xl_sheet)
     your_csv_file = open(csv_file, 'wb')
