@@ -18,7 +18,7 @@ from xlsxwriter.workbook import Workbook
 from openpyxl.chart import LineChart, Reference, Series
 
 
-#---------------------
+# ---------------------
 # function to convert MS Excel file to a CSV for processing
 def csv_from_excel(xl_doc, xl_sheet, csv_file):
     wbc = xlrd.open_workbook(xl_doc)
@@ -37,8 +37,8 @@ def min2sec(seconds):
     if seconds or seconds.strip():
         if type(seconds) != int:
             seconds = int(seconds.strip())
-        m,s = divmod(seconds, 60)
-        h,m = divmod(m, 60)
+        m, s = divmod(seconds, 60)
+        h, m = divmod(m, 60)
         m = str(int(m)).zfill(2)
         s = str(int(s))
         if h > 0:
@@ -62,6 +62,7 @@ def vlist_pop(c_type):
     except:
         pass
 
+
 def slist_pop(c_type):
     global s_lst
     try:
@@ -70,6 +71,7 @@ def slist_pop(c_type):
             s_lst.append(c_type)
     except:
         pass
+
 
 def dlist_pop(c_type):
     global d_lst
@@ -80,7 +82,8 @@ def dlist_pop(c_type):
     except:
         pass
 
-"""function to find the row average"""
+
+# function to find the row average
 def row_average(f_row, video, values):
     global r_ave, val_lst
     if f_row.startswith(video):
@@ -94,9 +97,10 @@ def row_average(f_row, video, values):
             r_ave = r_tot / r_len
             return r_ave
         except:
-                pass
+            pass
 
-"""function to append items to list"""
+
+# function to append items to list
 def list_appender(*args):
     global f_write
     for arg in args:
@@ -110,13 +114,13 @@ def list_appender(*args):
             f_write.append(arg)
     return f_write
 
-"""function to count the number of rows and return a list of respondens and add the average"""
-def head_writer(filename, filename2):
 
+# function to count the number of rows and return a list of respondents and add the average
+def head_writer(filename, filename2):
     head_lst = ["Category", "Time"]
     respondents = []
     with open(filename, "r") as f:
-        reader = csv.reader(f, lineterminator = '\n')
+        reader = csv.reader(f, lineterminator='\n')
         first_row = next(reader)
         num_cols = len(first_row)
         f_col = num_cols - 2
@@ -140,14 +144,15 @@ def head_writer(filename, filename2):
     head_lst.append("Higher_Ed_C_Average")
 
     with open(filename2, "w") as r:
-        writer = csv.writer(r, lineterminator = '\n')
+        writer = csv.writer(r, lineterminator='\n')
         writer.writerow(head_lst)
 
-"""function to populate the D1 dictionary"""
+
+# function to populate the D1 dictionary
 def position_dictionary(fist_csv_filename):
     global D1_dict
     with open(fist_csv_filename) as read:
-        rdr = csv.reader(read, lineterminator = '\n')
+        rdr = csv.reader(read, lineterminator='\n')
         for row in rdr:
             if row[0] == "D1":
                 gender = row[2:]
@@ -157,14 +162,15 @@ def position_dictionary(fist_csv_filename):
                     position.append(i)
                 D1_dict = dict(zip(position, gender))
 
-    del(position)
-    del(gender)
+    del (position)
+    del (gender)
 
-"""function to populate the D2 dictionary"""
+
+# function to populate the D2 dictionary
 def age_dictionary(fist_csv_filename):
     global D2_dict
     with open(fist_csv_filename) as read:
-        rdr = csv.reader(read, lineterminator = '\n')
+        rdr = csv.reader(read, lineterminator='\n')
         for row in rdr:
             if row[0] == "D2":
                 proto_list = row[2:]
@@ -183,15 +189,16 @@ def age_dictionary(fist_csv_filename):
                     position.append(i)
                 D2_dict = dict(zip(position, final_list))
 
-    del(position)
-    del(final_list)
-    del(proto_list)
+    del (position)
+    del (final_list)
+    del (proto_list)
 
-"""function to populate the D3 dictionary"""
+
+# function to populate the D3 dictionary
 def proto_ed_dic(fist_csv_filename):
     global protoD3_dict
     with open(fist_csv_filename) as read:
-        rdr = csv.reader(read, lineterminator = '\n')
+        rdr = csv.reader(read, lineterminator='\n')
         for row in rdr:
             if row[0] == "D3":
                 edu = row[2:]
@@ -201,16 +208,17 @@ def proto_ed_dic(fist_csv_filename):
                     position.append(i)
                 protoD3_dict = dict(zip(position, edu))
 
-    del(position)
-    del(edu)
+    del (position)
+    del (edu)
+
 
 def ed_dictionary(fist_csv_filename, age_dict, proto_list):
     global D3_dict
     with open(fist_csv_filename) as read:
-        rdr = csv.reader(read, lineterminator = '\n')
+        rdr = csv.reader(read, lineterminator='\n')
         for row in rdr:
             final_list = list()
-            if row[0] == "D3":                
+            if row[0] == "D3":
                 position = []
                 for i in range(len(proto_list)):
                     i = i + 2
@@ -241,10 +249,11 @@ def ed_dictionary(fist_csv_filename, age_dict, proto_list):
                     final_list.append(a)
                 D3_dict = dict(zip(position, final_list))
 
-    del(position)
-    del(final_list)
-    
-"""function to get row average by gender"""
+    del (position)
+    del (final_list)
+
+
+# function to get row average by gender
 def gender_average(row, first, POS_DICT):
     global male_r_ave, female_r_ave
     male_total = 0
@@ -264,13 +273,15 @@ def gender_average(row, first, POS_DICT):
         male_r_ave = male_total / male_count
         female_r_ave = female_total / female_count
 
+
 def noner(first):
     global male_r_ave, female_r_ave
     if not first.startswith("M"):
         male_r_ave = None
         female_r_ave = None
 
-"""function to get row average by age"""
+
+# function to get row average by age
 def age_average(row, first, POS_DICT):
     global u40_r_ave, a40_r_ave
     u40_total = 0
@@ -290,13 +301,15 @@ def age_average(row, first, POS_DICT):
         u40_r_ave = u40_total / u40_count
         a40_r_ave = a40_total / a40_count
 
+
 def noner2(first):
     global u40_r_ave, a40_r_ave
     if not first.startswith("M"):
         u40_r_ave = None
         a40_r_ave = None
 
-"""function to get row average by age"""
+
+# function to get row average by age
 def edu_average(row, first, POS_DICT):
     global lower_ed_ave, higher_ed_ave
     l_total = 0
@@ -316,6 +329,7 @@ def edu_average(row, first, POS_DICT):
         lower_ed_ave = l_total / l_count
         higher_ed_ave = h_total / h_count
 
+
 def noner3(first):
     global lower_ed_ave, higher_ed_ave
     if not first.startswith("M"):
@@ -323,7 +337,7 @@ def noner3(first):
         higher_ed_ave = None
 
 
-"""function to count the number of MS Excel files processes and create a popup"""
+# function to count the number of MS Excel files processes and create a popup
 def file_counter(folder_name):
     file_c = 0
     for croot, cdirs, cfiles in os.walk(folder_name):
@@ -331,19 +345,19 @@ def file_counter(folder_name):
             if cfile.endswith(".xls") or cfile.endswith(".xlsx"):
                 file_c += 1
 
-    tkMessageBox.showinfo(title="Success!", message = "A total of {} file(s) were processed.".format(file_c))
+    tkMessageBox.showinfo(title="Success!", message="A total of {} file(s) were processed.".format(file_c))
 
-#---------------------
-#getting user input for the root directory
+
+# ---------------------
+# getting user input for the root directory
 Tk().withdraw()
-base_dir = askdirectory(title = "Select folder with the Excel Workbooks for Dial Testing Analysis")
+base_dir = askdirectory(title="Select folder with the Excel Workbooks for Dial Testing Analysis")
 
-
-#mining for excel workbooks within the base directory
+# mining for excel workbooks within the base directory
 for root, dirs, files in os.walk(base_dir):
     for afile in files:
         if afile.endswith('.xlsx') or afile.endswith('.xls'):
-            #initialising variables
+            # initialising variables
             h_var = None
             s_lst = []
             v_lst = []
@@ -365,17 +379,14 @@ for root, dirs, files in os.walk(base_dir):
                 os.makedirs(ana_dir)
             output_xl = os.path.join(ana_dir, ("Analysed_" + afile))
 
-
             head_writer(csv_path, temp2csv)
             position_dictionary(csv_path)
             age_dictionary(csv_path)
             proto_ed_dic(csv_path)
             ed_dictionary(csv_path, D2_dict, protoD3_dict)
-            
-            
 
             with open(csv_path) as ori:
-                reader = csv.reader(ori, lineterminator = '\n')
+                reader = csv.reader(ori, lineterminator='\n')
                 next(reader, None)
                 for row in reader:
                     r = []
@@ -394,36 +405,37 @@ for root, dirs, files in os.walk(base_dir):
                     else:
                         pass
                     with open(temp2csv, "a") as ori2:
-                        wrt = csv.writer(ori2, lineterminator = '\n')
+                        wrt = csv.writer(ori2, lineterminator='\n')
 
-                        #calculate the average row score per second
+                        # calculate the average row score per second
                         r_ave = None
                         val_lst = []
                         row_average(h_var, "M", r)
 
-                        #calculate the average row score by gender per second
+                        # calculate the average row score by gender per second
                         male_r_ave = 0
                         female_r_ave = 0
                         gender_average(r, h_var, D1_dict)
                         noner(h_var)
 
-                        #calculate the average row score by age per second
+                        # calculate the average row score by age per second
                         u40_r_ave = 0
                         a40_r_ave = 0
                         age_average(r, h_var, D2_dict)
                         noner2(h_var)
 
-                        #calculate the average row score by education level per second
+                        # calculate the average row score by education level per second
                         lower_ed_ave = 0
                         higher_ed_ave = 0
                         edu_average(r, h_var, D3_dict)
                         noner3(h_var)
 
-                        #create a list from all of the inputs and write the row in the csv
-                        list_appender(h_var, min2sec(r[1]), r[2:], r_ave,"" , male_r_ave, "", female_r_ave, "", u40_r_ave, "", a40_r_ave, "", lower_ed_ave, "", higher_ed_ave, "")
+                        # create a list from all of the inputs and write the row in the csv
+                        list_appender(h_var, min2sec(r[1]), r[2:], r_ave, "", male_r_ave, "", female_r_ave, "",
+                                      u40_r_ave, "", a40_r_ave, "", lower_ed_ave, "", higher_ed_ave, "")
                         wrt.writerow(f_write)
 
-            #creating an individual file for each video
+            # creating an individual file for each video
             for vid in v_lst:
                 c_total = 0
                 c_count = 0
@@ -435,9 +447,9 @@ for root, dirs, files in os.walk(base_dir):
                 h_ed_c_total = 0
                 vid_out = os.path.join(csv_dir, (vid + ".csv"))
 
-                #calculation of the overall average for each category
+                # calculation of the overall average for each category
                 with open(temp2csv, "r") as new:
-                    rdr = csv.reader(new, lineterminator = '\n')
+                    rdr = csv.reader(new, lineterminator='\n')
                     for row in rdr:
                         if row[0] == vid:
                             c_total += float(row[-14])
@@ -457,38 +469,38 @@ for root, dirs, files in os.walk(base_dir):
                 l_ed_c_average = l_ed_c_total / c_count
                 h_ed_c_average = h_ed_c_total / c_count
 
-
                 with open(temp2csv, "r") as new2:
-                    rdr = csv.reader(new2, lineterminator = '\n')
+                    rdr = csv.reader(new2, lineterminator='\n')
                     for row in rdr:
                         f_write = []
                         if row[0] == "Category":
                             with open(vid_out, "w") as new_vid:
-                                wrt = csv.writer(new_vid, lineterminator = '\n')
+                                wrt = csv.writer(new_vid, lineterminator='\n')
                                 list_appender(row)
                                 wrt.writerow(f_write)
                         elif row[0] in d_lst:
                             with open(vid_out, "a") as new_vid:
-                                wrt = csv.writer(new_vid, lineterminator = '\n')
+                                wrt = csv.writer(new_vid, lineterminator='\n')
                                 list_appender(row)
                                 wrt.writerow(f_write)
                         elif row[0] == vid:
                             with open(vid_out, "a") as new_vid:
-                                wrt = csv.writer(new_vid, lineterminator = '\n')
-                                list_appender(row[:-13], c_average, row[-12], m_c_average, row[-10], f_c_average, row[-8], u40_c_average, row[-6], a40_c_average, row[-4], l_ed_c_average, row[-2], h_ed_c_average)
+                                wrt = csv.writer(new_vid, lineterminator='\n')
+                                list_appender(row[:-13], c_average, row[-12], m_c_average, row[-10], f_c_average,
+                                              row[-8], u40_c_average, row[-6], a40_c_average, row[-4], l_ed_c_average,
+                                              row[-2], h_ed_c_average)
                                 wrt.writerow(f_write)
-
 
             os.remove(csv_path)
             os.remove(temp2csv)
 
-#creating the final excel outputs without charts
+            # creating the final excel outputs without charts
             for broot, bdirs, bfiles in os.walk(csv_dir):
                 for bfile in bfiles:
                     if bfile.endswith(".csv"):
 
-                        head,tail = os.path.splitext(bfile) # <- getting the worksheetname from the .csv file
-                        f_csv = os.path.join(broot, bfile) # <- CSV filename
+                        head, tail = os.path.splitext(bfile)  # <- getting the worksheetname from the .csv file
+                        f_csv = os.path.join(broot, bfile)  # <- CSV filename
 
                         if os.path.isfile(output_xl) == False:
                             wb = openpyxl.Workbook()
@@ -496,7 +508,7 @@ for root, dirs, files in os.walk(base_dir):
                             ws.title = head
 
                             with open(f_csv, 'rb') as b_csv_file:
-                                bf_reader = csv.reader(b_csv_file, lineterminator = "\n")
+                                bf_reader = csv.reader(b_csv_file, lineterminator="\n")
                                 for row_index, row in enumerate(bf_reader):
                                     for column_index, cell in enumerate(row):
                                         column_letter = openpyxl.cell.get_column_letter((column_index + 1))
@@ -505,9 +517,7 @@ for root, dirs, files in os.walk(base_dir):
                                             s = float(s)
                                         except ValueError:
                                             pass
-                                        ws.cell('%s%s'%(column_letter, (row_index + 1))).value = s
-
-
+                                        ws.cell('%s%s' % (column_letter, (row_index + 1))).value = s
 
                             wb.save(output_xl)
 
@@ -526,7 +536,7 @@ for root, dirs, files in os.walk(base_dir):
                             ws.title = head
 
                             with open(f_csv, 'rb') as b_csv_file:
-                                bf_reader = csv.reader(b_csv_file, lineterminator = "\n")
+                                bf_reader = csv.reader(b_csv_file, lineterminator="\n")
                                 for row_index, row in enumerate(bf_reader):
                                     for column_index, cell in enumerate(row):
                                         column_letter = openpyxl.cell.get_column_letter((column_index + 1))
@@ -535,7 +545,7 @@ for root, dirs, files in os.walk(base_dir):
                                             s = float(s)
                                         except ValueError:
                                             pass
-                                        ws.cell('%s%s'%(column_letter, (row_index + 1))).value = s
+                                        ws.cell('%s%s' % (column_letter, (row_index + 1))).value = s
                             wb.save(output_xl)
                             try:
                                 wb2 = openpyxl.load_workbook(output_xl)
@@ -551,7 +561,7 @@ os.removedirs(csv_dir)
 
 from openpyxl.chart import LineChart, Reference, Series
 
-#creating the necessary charts in each newly created MS Excel file
+# creating the necessary charts in each newly created MS Excel file
 for croot, cdirs, cfiles in os.walk(ana_dir):
     for cfile in cfiles:
         if cfile.endswith(".xlsx"):
@@ -564,50 +574,48 @@ for croot, cdirs, cfiles in os.walk(ana_dir):
                 row_max = int(cws.max_row)
                 mm_cs = cwb.create_chartsheet()
                 mm_cs.title = "Chart_" + dws + "_MM"
-                
-                DT_col = int(col_max) - 13                
+
+                DT_col = int(col_max) - 13
                 AC_col = int(col_max) - 12
-                
-                
-                timings = Reference(cws, min_col = 2, min_row = 5, max_row = row_max)
-                
-                mm_r_ave = Reference(cws, min_col = DT_col, min_row = 5, max_row = row_max)
-                mm_c_ave = Reference(cws, min_col = AC_col, min_row = 5, max_row = row_max)
+
+                timings = Reference(cws, min_col=2, min_row=5, max_row=row_max)
+
+                mm_r_ave = Reference(cws, min_col=DT_col, min_row=5, max_row=row_max)
+                mm_c_ave = Reference(cws, min_col=AC_col, min_row=5, max_row=row_max)
                 mm_chart = LineChart()
-                mm_r_ave_ser = Series(mm_r_ave, title = "Dial Testing Score")
-                mm_c_ave_ser = Series(mm_c_ave, title = "Mean Score")
+                mm_r_ave_ser = Series(mm_r_ave, title="Dial Testing Score")
+                mm_c_ave_ser = Series(mm_c_ave, title="Mean Score")
                 mm_chart.append(mm_r_ave_ser)
                 mm_chart.append(mm_c_ave_ser)
-                mm_chart.set_categories(timings)                
+                mm_chart.set_categories(timings)
                 mm_cs.add_chart(mm_chart)
-                
-                
+
                 gender_cs = cwb.create_chartsheet()
                 gender_cs.title = "Chart_" + dws + "_SEX"
                 male_r_col = int(col_max) - 11
                 male_ave = int(col_max) - 10
                 female_r_col = int(col_max) - 9
                 female_ave = int(col_max) - 8
-                gender_male_r_ave = Reference(cws, min_col = male_r_col, min_row = 5, max_row = row_max)
-                gender_female_r_ave = Reference(cws, min_col = female_r_col, min_row = 5, max_row = row_max)
+                gender_male_r_ave = Reference(cws, min_col=male_r_col, min_row=5, max_row=row_max)
+                gender_female_r_ave = Reference(cws, min_col=female_r_col, min_row=5, max_row=row_max)
                 gender_chart = LineChart()
-                gender_male_r_ave_ser = Series(gender_male_r_ave, title = "Male")
-                gender_female_r_ave_ser = Series(gender_female_r_ave, title = "Female")
+                gender_male_r_ave_ser = Series(gender_male_r_ave, title="Male")
+                gender_female_r_ave_ser = Series(gender_female_r_ave, title="Female")
                 gender_chart.append(gender_male_r_ave_ser)
                 gender_chart.append(gender_female_r_ave_ser)
                 gender_chart.append(mm_r_ave_ser)
                 gender_chart.set_categories(timings)
                 gender_cs.add_chart(gender_chart)
-                
+
                 age_cs = cwb.create_chartsheet()
                 age_cs.title = "Chart_" + dws + "_AGE"
                 u40_r_col = int(col_max) - 7
                 a40_r_col = int(col_max) - 5
-                age_u40_r_col = Reference(cws, min_col = u40_r_col, min_row = 5, max_row = row_max)
-                age_a40_r_col = Reference(cws, min_col = a40_r_col, min_row = 5, max_row = row_max)
+                age_u40_r_col = Reference(cws, min_col=u40_r_col, min_row=5, max_row=row_max)
+                age_a40_r_col = Reference(cws, min_col=a40_r_col, min_row=5, max_row=row_max)
                 age_chart = LineChart()
-                age_u40_r_col_ser = Series(age_u40_r_col, title = "Younger")
-                age_a40_r_col_ser = Series(age_a40_r_col, title = "Older")
+                age_u40_r_col_ser = Series(age_u40_r_col, title="Younger")
+                age_a40_r_col_ser = Series(age_a40_r_col, title="Older")
                 age_chart.append(age_u40_r_col_ser)
                 age_chart.append(age_a40_r_col_ser)
                 age_chart.append(mm_r_ave_ser)
@@ -618,17 +626,17 @@ for croot, cdirs, cfiles in os.walk(ana_dir):
                 edu_cs.title = "Chart_" + dws + "_EDU"
                 lower_r_ave = int(col_max) - 3
                 higher_r_ave = int(col_max) - 1
-                edu_lower_r_ave = Reference(cws, min_col = lower_r_ave, min_row = 5, max_row = row_max)
-                edu_higher_r_ave = Reference(cws, min_col = higher_r_ave, min_row = 5, max_row = row_max)
+                edu_lower_r_ave = Reference(cws, min_col=lower_r_ave, min_row=5, max_row=row_max)
+                edu_higher_r_ave = Reference(cws, min_col=higher_r_ave, min_row=5, max_row=row_max)
                 edu_chart = LineChart()
-                edu_lower_r_ave_ser = Series(edu_lower_r_ave, title = "Lower Ed")
-                edu_higher_r_ave_ser = Series(edu_higher_r_ave, title = "Higher Ed")
+                edu_lower_r_ave_ser = Series(edu_lower_r_ave, title="Lower Ed")
+                edu_higher_r_ave_ser = Series(edu_higher_r_ave, title="Higher Ed")
                 edu_chart.append(edu_lower_r_ave_ser)
                 edu_chart.append(edu_higher_r_ave_ser)
                 edu_chart.append(mm_r_ave_ser)
                 edu_chart.set_categories(timings)
                 edu_cs.add_chart(edu_chart)
-                
+
             cwb.save(cfile_name)
-            
+
 file_counter(ana_dir)
