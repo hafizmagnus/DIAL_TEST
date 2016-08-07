@@ -1,10 +1,9 @@
-"""
----------------------
-This sript was developed and authored by Hafiz Magnus for the exclusive use by RySense Ltd.
-Exclusive rights to the code structure and computational logic contained herein remains with the author.
-All data inputs/outputs are solely owned by RySense Ltd.
----------------------
-"""
+# ---------------------
+# This script was developed and authored by Hafiz Magnus for the exclusive use by RySense Ltd.
+# Exclusive rights to the code structure and computational logic contained herein remains with the author.
+# All data inputs/outputs are solely owned by RySense Ltd.
+# ---------------------
+
 
 import os, sys
 import xlrd, xlsxwriter
