@@ -353,6 +353,7 @@ def file_counter(folder_name):
 Tk().withdraw()
 base_dir = askdirectory(title="Select folder with the Excel Workbooks for Dial Testing Analysis")
 
+
 # mining for excel workbooks within the base directory
 for root, dirs, files in os.walk(base_dir):
     for afile in files:
