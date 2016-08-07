@@ -35,12 +35,12 @@ def csv_from_excel(xl_doc, xl_sheet, csv_file):
 # function to convert seconds to minutes and seconds
 def min2sec(seconds):
     if seconds or seconds.strip():
-        if type(seconds) != int:
-            seconds = int(seconds.strip())
+        if type(seconds) != float:
+            seconds = float(seconds.strip())
         m, s = divmod(seconds, 60)
         h, m = divmod(m, 60)
         m = str(int(m)).zfill(2)
-        s = str(int(s))
+        s = str(int(s)).zfill(2)
         if h > 0:
             h = int(h)
             h = str(h)
