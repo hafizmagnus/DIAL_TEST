@@ -51,7 +51,8 @@ def min2sec(seconds):
     else:
         pass
 
-# function to populate list of vids, scale, and demographic questions
+
+# function to populate list of video, scale, and demographic questions
 def vlist_pop(c_type):
     global v_lst
     try:
